@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CB Pacific × Velotic — Campaign Analysis | graph8</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg:        #08090C;
+  --bg2:       #0D0F14;
+  --surface:   #111318;
+  --surface2:  #181B22;
+  --surface3:  #1E2230;
+  --border:    #252A38;
+  --border2:   #2E354A;
+  --blue:      #3B82F6;
+  --blue-dim:  #1D4ED8;
+  --blue-glow: rgba(59,130,246,0.15);
+  --green:     #22C55E;
+  --green-dim: rgba(34,197,94,0.12);
+  --amber:     #F59E0B;
+  --amber-dim: rgba(245,158,11,0.12);
+  --red:       #EF4444;
+  --red-dim:   rgba(239,68,68,0.10);
+  --text:      #E2E8F0;
+  --text-2:    #94A3B8;
+  --text-3:    #475569;
+  --mono:      'JetBrains Mono', monospace;
+  --sans:      'Inter', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ══════════════════════════════════════
+   TOPBAR
+══════════════════════════════════════ */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(8,9,12,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 52px;
+}
+.topbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.topbar-logo svg { width: 22px; height: 22px; }
+.topbar-logomark {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 15px;
+  color: #fff;
+  letter-spacing: -0.3px;
+}
+.topbar-divider {
+  width: 1px;
+  height: 18px;
+  background: var(--border2);
+  margin: 0 12px;
+}
+.topbar-title {
+  font-size: 13px;
+  color: var(--text-2);
+  font-weight: 400;
+}
+.topbar-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--blue);
+  background: var(--blue-glow);
+  border: 1px solid rgba(59,130,246,0.3);
+  padding: 3px 9px;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+}
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.hero {
+  border-bottom: 1px solid var(--border);
+  padding: 60px 64px 52px;
+  background: linear-gradient(180deg, #0D1020 0%, var(--bg) 100%);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.eyebrow-pill {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--blue);
+  background: var(--blue-glow);
+  border: 1px solid rgba(59,130,246,0.25);
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+.eyebrow-sep { color: var(--text-3); font-size: 12px; }
+.eyebrow-date { font-size: 12px; color: var(--text-3); }
+
+.hero h1 {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  line-height: 1.15;
+  margin-bottom: 14px;
+  color: #F0F4FF;
+}
+.hero h1 span { color: var(--blue); }
+
+.hero-sub {
+  font-size: 15px;
+  color: var(--text-2);
+  max-width: 600px;
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 700px;
+  background: var(--surface);
+}
+.hero-stat {
+  flex: 1;
+  padding: 18px 22px;
+  border-right: 1px solid var(--border);
+}
+.hero-stat:last-child { border-right: none; }
+.hero-stat-val {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--blue);
+  letter-spacing: -0.5px;
+  font-family: var(--mono);
+  margin-bottom: 2px;
+}
+.hero-stat-val.green { color: var(--green); }
+.hero-stat-val.amber { color: var(--amber); }
+.hero-stat-label { font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.07em; }
+
+/* ══════════════════════════════════════
+   LAYOUT
+══════════════════════════════════════ */
+.layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+}
+
+/* ══════════════════════════════════════
+   SIDENAV
+══════════════════════════════════════ */
+.sidenav {
+  border-right: 1px solid var(--border);
+  padding: 28px 0 80px;
+  position: sticky;
+  top: 52px;
+  height: calc(100vh - 52px);
+  overflow-y: auto;
+}
+.sidenav-group { margin-bottom: 6px; }
+.sidenav-group-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--text-3);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 10px 20px 4px;
+}
+.nav-a {
+  display: block;
+  padding: 7px 20px;
+  font-size: 12.5px;
+  color: var(--text-2);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all 0.12s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nav-a:hover { color: var(--text); background: var(--surface); }
+.nav-a.active { color: #fff; border-left-color: var(--blue); background: rgba(59,130,246,0.07); }
+.sidenav-div { height: 1px; background: var(--border); margin: 10px 0; }
+
+/* ══════════════════════════════════════
+   MAIN CONTENT
+══════════════════════════════════════ */
+.content { padding: 44px 52px 100px; max-width: 960px; }
+
+/* ══════════════════════════════════════
+   SECTION
+══════════════════════════════════════ */
+.section { margin-bottom: 64px; scroll-margin-top: 68px; }
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+.section-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--blue);
+  letter-spacing: 0.05em;
+  min-width: 30px;
+}
+.section-title { font-size: 18px; font-weight: 600; color: #F0F4FF; letter-spacing: -0.3px; }
+.section-sub { font-size: 13px; color: var(--text-2); margin-left: auto; }
+
+/* ══════════════════════════════════════
+   CALLOUT
+══════════════════════════════════════ */
+.callout {
+  border-radius: 8px;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+.callout.blue { background: rgba(59,130,246,0.07); border: 1px solid rgba(59,130,246,0.2); color: var(--text); }
+.callout.green { background: var(--green-dim); border: 1px solid rgba(34,197,94,0.25); color: var(--text); }
+.callout.amber { background: var(--amber-dim); border: 1px solid rgba(245,158,11,0.25); color: var(--text); }
+.callout strong { color: #fff; }
+.callout p + p { margin-top: 10px; }
+
+/* ══════════════════════════════════════
+   KV GRID
+══════════════════════════════════════ */
+.kv-grid { display: grid; gap: 10px; margin-bottom: 18px; }
+.kv-grid.col2 { grid-template-columns: 1fr 1fr; }
+.kv-grid.col3 { grid-template-columns: 1fr 1fr 1fr; }
+.kv {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 14px 16px;
+}
+.kv.span2 { grid-column: span 2; }
+.kv-label { font-family: var(--mono); font-size: 9.5px; color: var(--text-3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+.kv-val { font-size: 13px; color: var(--text); line-height: 1.5; }
+.kv-val.blue { color: var(--blue); font-weight: 500; }
+.kv-val.green { color: var(--green); font-weight: 500; }
+.kv-val.amber { color: var(--amber); font-weight: 500; }
+.kv-val.big { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--blue); }
+
+/* ══════════════════════════════════════
+   TABLE
+══════════════════════════════════════ */
+.tbl-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+.tbl-head {
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  padding: 9px 16px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--text-3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.tbl-row {
+  display: grid;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  gap: 14px;
+  align-items: start;
+}
+.tbl-row:last-child { border-bottom: none; }
+.tbl-row.highlight { background: rgba(59,130,246,0.04); }
+.tbl-row.highlight-green { background: var(--green-dim); }
+.tbl-row.highlight-amber { background: var(--amber-dim); }
+.tbl-cell { font-size: 13px; color: var(--text); line-height: 1.5; }
+.tbl-cell.muted { color: var(--text-2); font-size: 12px; }
+.tbl-cell.mono { font-family: var(--mono); }
+.tbl-cell.blue { color: var(--blue); font-family: var(--mono); font-weight: 600; }
+.tbl-cell.green { color: var(--green); font-family: var(--mono); font-weight: 600; }
+.tbl-cell.amber { color: var(--amber); font-family: var(--mono); font-weight: 600; }
+.tbl-cell.strong { font-weight: 600; color: #F0F4FF; }
+
+/* 3-col layout */
+.tbl-3 .tbl-row { grid-template-columns: 180px 90px 1fr; }
+/* 4-col */
+.tbl-4 .tbl-row { grid-template-columns: 160px 80px 80px 1fr; }
+/* 2-col */
+.tbl-2 .tbl-row { grid-template-columns: 160px 1fr; }
+
+/* ══════════════════════════════════════
+   TAGS
+══════════════════════════════════════ */
+.tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 4px;
+  border: 1px solid;
+  line-height: 1.4;
+}
+.tag.blue  { color: #93C5FD; border-color: rgba(147,197,253,0.25); background: rgba(59,130,246,0.08); }
+.tag.green { color: #86EFAC; border-color: rgba(134,239,172,0.25); background: rgba(34,197,94,0.08); }
+.tag.red   { color: #FCA5A5; border-color: rgba(252,165,165,0.25); background: rgba(239,68,68,0.08); }
+.tag.amber { color: #FCD34D; border-color: rgba(252,211,77,0.25); background: rgba(245,158,11,0.08); }
+.tag.grey  { color: var(--text-2); border-color: var(--border2); background: var(--surface2); }
+
+/* ══════════════════════════════════════
+   FUNNEL
+══════════════════════════════════════ */
+.funnel { margin-bottom: 20px; }
+.funnel-step { display: flex; align-items: center; gap: 12px; margin-bottom: 3px; }
+.funnel-label { min-width: 200px; font-size: 12px; color: var(--text-2); text-align: right; }
+.funnel-bar-col { flex: 1; }
+.funnel-bar {
+  height: 30px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #fff;
+}
+.funnel-arrow { font-size: 10px; color: var(--text-3); padding: 2px 0 2px 212px; }
+
+/* ══════════════════════════════════════
+   BUILD OPTION CARDS
+══════════════════════════════════════ */
+.build-cards { display: flex; flex-direction: column; gap: 14px; }
+.build-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.build-card.rec { border-color: rgba(34,197,94,0.35); }
+.build-card-head {
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.bc-badge {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 3px;
+  border: 1px solid;
+}
+.bc-badge.rec   { color: var(--green); border-color: rgba(34,197,94,0.4); background: var(--green-dim); }
+.bc-badge.sup   { color: var(--blue);  border-color: rgba(59,130,246,0.35); background: var(--blue-glow); }
+.bc-badge.sig   { color: var(--amber); border-color: rgba(245,158,11,0.35); background: var(--amber-dim); }
+.bc-name { font-size: 14px; font-weight: 600; color: #F0F4FF; }
+.build-card-body { padding: 18px; }
+.bc-desc { font-size: 13px; color: var(--text-2); line-height: 1.65; margin-bottom: 16px; }
+
+.bc-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 16px; }
+.bc-stat {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.bc-stat-label { font-size: 9.5px; font-family: var(--mono); color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+.bc-stat-val { font-size: 12.5px; font-weight: 500; color: var(--text); }
+.bc-stat-val.blue { color: var(--blue); }
+.bc-stat-val.green { color: var(--green); }
+.bc-stat-val.amber { color: var(--amber); }
+
+/* ══════════════════════════════════════
+   CODE BLOCK
+══════════════════════════════════════ */
+.code-block {
+  background: #060709;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+.code-block-head {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--surface);
+}
+.code-label { font-family: var(--mono); font-size: 9.5px; color: var(--text-3); letter-spacing: 0.1em; text-transform: uppercase; }
+.copy-btn {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--blue);
+  border: 1px solid rgba(59,130,246,0.3);
+  background: transparent;
+  padding: 2px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: all 0.12s;
+}
+.copy-btn:hover { background: var(--blue-glow); }
+.code-body {
+  padding: 14px 16px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: #CBD5E1;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.code-body .cm { color: #4B5563; }
+.code-body .kw { color: #93C5FD; }
+.code-body .st { color: #86EFAC; }
+.code-body .nu { color: #FCD34D; }
+
+/* ══════════════════════════════════════
+   STEP LIST
+══════════════════════════════════════ */
+.steps { display: flex; flex-direction: column; gap: 10px; }
+.step {
+  display: flex;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 14px 16px;
+  align-items: flex-start;
+}
+.step-n {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--blue);
+  min-width: 22px;
+  margin-top: 1px;
+}
+.step-body { font-size: 13px; color: var(--text); line-height: 1.6; }
+.step-body strong { color: #F0F4FF; }
+
+/* ══════════════════════════════════════
+   PERSONA CARD
+══════════════════════════════════════ */
+.persona-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.persona-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+}
+.persona-card.primary { border-color: rgba(59,130,246,0.3); }
+.persona-role { font-size: 13px; font-weight: 600; color: #F0F4FF; margin-bottom: 6px; }
+.persona-pain { font-size: 12px; color: var(--text-2); line-height: 1.55; margin-bottom: 8px; }
+.persona-hook { font-size: 12px; color: var(--blue); font-style: italic; }
+
+/* ══════════════════════════════════════
+   TIMELINE
+══════════════════════════════════════ */
+.timeline { position: relative; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 20px;
+  bottom: 20px;
+  width: 1px;
+  background: var(--border2);
+}
+.tl-item {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  position: relative;
+}
+.tl-dot {
+  width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 1;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+.tl-dot.blue { background: rgba(59,130,246,0.15); border-color: rgba(59,130,246,0.4); color: var(--blue); }
+.tl-dot.green { background: var(--green-dim); border-color: rgba(34,197,94,0.4); color: var(--green); }
+.tl-dot.amber { background: var(--amber-dim); border-color: rgba(245,158,11,0.4); color: var(--amber); }
+.tl-content {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 14px 16px;
+  flex: 1;
+  margin-top: 0;
+}
+.tl-phase { font-family: var(--mono); font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+.tl-title { font-size: 13.5px; font-weight: 600; color: #F0F4FF; margin-bottom: 6px; }
+.tl-desc { font-size: 12.5px; color: var(--text-2); line-height: 1.55; }
+
+/* ══════════════════════════════════════
+   MISC
+══════════════════════════════════════ */
+.divider { height: 1px; background: var(--border); margin: 28px 0; }
+.text-muted { color: var(--text-2); font-size: 13px; margin-bottom: 16px; line-height: 1.6; }
+.inline-code { font-family: var(--mono); font-size: 11.5px; background: var(--surface2); border: 1px solid var(--border); padding: 1px 6px; border-radius: 3px; color: #93C5FD; }
+.mb16 { margin-bottom: 16px; }
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidenav { display: none; }
+  .content { padding: 28px 20px 60px; }
+  .hero { padding: 36px 20px; }
+  .kv-grid.col2 { grid-template-columns: 1fr; }
+  .kv-grid.col3 { grid-template-columns: 1fr; }
+  .hero-stats { flex-direction: column; }
+  .bc-stats { grid-template-columns: 1fr 1fr; }
+  .persona-grid { grid-template-columns: 1fr; }
+  .tbl-3 .tbl-row { grid-template-columns: 1fr; }
+  .tbl-4 .tbl-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-logo">
+    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="28" height="28" rx="6" fill="#3B82F6"/>
+      <path d="M7 14C7 10.134 10.134 7 14 7V7C17.866 7 21 10.134 21 14V14C21 17.866 17.866 21 14 21V21" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+      <circle cx="14" cy="21" r="2" fill="white"/>
+    </svg>
+    <span class="topbar-logomark">graph8</span>
+    <div class="topbar-divider"></div>
+    <span class="topbar-title">Campaign Analysis</span>
+  </div>
+  <div class="topbar-right">
+    <span class="topbar-badge">CB Pacific × Velotic</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">
+    <span class="eyebrow-pill">GTM Analysis</span>
+    <span class="eyebrow-sep">/</span>
+    <span class="eyebrow-date">July 2, 2026 · Kickoff call briefed</span>
+  </div>
+  <h1>CB Pacific × <span>Velotic Scheduler</span><br>Full Campaign Analysis</h1>
+  <p class="hero-sub">End-to-end campaign intelligence derived from kickoff transcript and ICP brief — covering product context, ICP, TAM sizing, buyer personas, route decision, qualification spec, build options, and launch sequence.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-val">~4,400</div>
+      <div class="hero-stat-label">Qualified TAM (top-down)</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val green">~2,600</div>
+      <div class="hero-stat-label">Reachable (Graph8 mashup)</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val amber">3</div>
+      <div class="hero-stat-label">Launch cohorts</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">$50–100K</div>
+      <div class="hero-stat-label">ACV (subscription/yr)</div>
+    </div>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+<!-- SIDENAV -->
+<nav class="sidenav">
+  <div class="sidenav-group">
+    <div class="sidenav-group-label">Context</div>
+    <a class="nav-a active" href="#s-client">Client & Product</a>
+    <a class="nav-a" href="#s-icp">ICP</a>
+    <a class="nav-a" href="#s-personas">Buyer Personas</a>
+    <a class="nav-a" href="#s-vp">Value Props</a>
+  </div>
+  <div class="sidenav-div"></div>
+  <div class="sidenav-group">
+    <div class="sidenav-group-label">TAM Analysis</div>
+    <a class="nav-a" href="#s-constraint">Binding Constraint</a>
+    <a class="nav-a" href="#s-route">Route Decision</a>
+    <a class="nav-a" href="#s-anchor">Anchor & Source</a>
+    <a class="nav-a" href="#s-sizing">Market Sizing</a>
+    <a class="nav-a" href="#s-spec">Qualification Spec</a>
+  </div>
+  <div class="sidenav-div"></div>
+  <div class="sidenav-group">
+    <div class="sidenav-group-label">Build Plan</div>
+    <a class="nav-a" href="#s-options">Build Options</a>
+    <a class="nav-a" href="#s-cohorts">Campaign Cohorts</a>
+    <a class="nav-a" href="#s-tech">Tech Onboarding</a>
+    <a class="nav-a" href="#s-next">Next Steps</a>
+  </div>
+</nav>
+
+<!-- CONTENT -->
+<div class="content">
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║  SECTION 1 — CLIENT & PRODUCT        ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="section" id="s-client">
+  <div class="section-head">
+    <span class="section-num">01</span>
+    <span class="section-title">Client & Product</span>
+  </div>
+
+  <div class="kv-grid col2">
+    <div class="kv">
+      <div class="kv-label">Client</div>
+      <div class="kv-val">CB Pacific — premier industrial technology distributor & manufacturer's rep, ~30 employees, Kirkland WA. Profitable. FY starts July.</div>
+    </div>
+    <div class="kv">
+      <div class="kv-label">Product Being Campaigned</div>
+      <div class="kv-val">Velotic Scheduler (formerly GE Proficy / RobEx). Cloud-based production scheduling software. Acquired by GE from Danish company RobEx ~1.5–2 years ago. Now rebranded Velotic after GE took it private.</div>
+    </div>
+    <div class="kv">
+      <div class="kv-label">Go-to-Market Model</div>
+      <div class="kv-val">CB Pacific is the West Coast channel partner / VAR. Covers CA, OR, WA, AK (AK excluded from this campaign).</div>
+    </div>
+    <div class="kv">
+      <div class="kv-label">Broader Velotic Suite</div>
+      <div class="kv-val">Process visualization, downtime analytics, quality control, genealogy tracking. Primarily for Fortune 500 today. Scheduler is the beachhead product for mid-market.</div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+    <div class="tbl-head">Key Product Facts (from kickoff)</div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">Origin</div>
+      <div class="tbl-cell muted">Built by Danish company RobEx, dominant in Denmark. GE purchased, now rebranded Velotic. First US market push — minimal existing US install base.</div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">Core capability</div>
+      <div class="tbl-cell muted">Constraint & resource mapping (orders, machines, materials, people) → dynamic one-click re-scheduling → optional ERP/WMS/automation data tie-ins.</div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">Key differentiator</div>
+      <div class="tbl-cell muted">Only cloud-based, true web/HTML interface scheduler on the market. Competitors (Siemens et al.) still desktop-based. No server required — "like Netflix, subscribe and you're done."</div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">Pricing</div>
+      <div class="tbl-cell muted">Subscription only. Typically 3-year term (1- or 2-year available). ~$50K–$100K/year. Scales by number of manufacturing sites.</div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">Case studies available</div>
+      <div class="tbl-cell muted">20–25 customer success stories across metals, food, discrete manufacturing, and other verticals. Gary (Velotic) to send. Critical asset — list build will be organized around cohort-to-case-study match.</div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">Brand positioning</div>
+      <div class="tbl-cell muted">Lead with "Velotic, formerly GE" framing in all outreach. GE brand recognition is a significant trust lever — agreed by Mark and Gary on the call.</div>
+    </div>
+  </div>
+
+  <div class="callout blue">
+    <strong>What the product replaces:</strong> 2–3 full-time schedulers spending 40+ hours/week managing fragile Excel spreadsheets. Post-Velotic: same output in ~5 hours/week, freeing headcount for higher-value plant tasks. Gary's line from the call: <em>"Your business isn't spreadsheet management, and they don't want it to be."</em>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║  SECTION 2 — ICP                     ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="section" id="s-icp">
+  <div class="section-head">
+    <span class="section-num">02</span>
+    <span class="section-title">Ideal Customer Profile</span>
+  </div>
+
+  <div class="kv-grid col3">
+    <div class="kv">
+      <div class="kv-label">Geography</div>
+      <div class="kv-val">West Coast US — California (primary), Oregon, Washington. Alaska excluded for this phase.</div>
+    </div>
+    <div class="kv">
+      <div class="kv-label">Company Size</div>
+      <div class="kv-val">50–500 employees<br>$10M–$750M revenue<br><em style="color:var(--text-2);font-size:12px;">Ideal: $50M–$500M</em></div>
+    </div>
+    <div class="kv">
+      <div class="kv-label">Tech Maturity</div>
+      <div class="kv-val">Still scheduling on Excel / paper. May have an ERP (Epicor, NetSuite, Infor) but ERP doesn't solve variability at the floor level.</div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap mb16">
+    <div class="tbl-head">Target Industries (confirmed on kickoff call)</div>
+    <div class="tbl-row tbl-3">
+      <div class="tbl-cell strong">Discrete & Custom Mfg</div>
+      <div class="tbl-cell green">Primary</div>
+      <div class="tbl-cell muted">Machine shops, CNC fabricators, custom precision parts. NAICS 332/333/339. Definitionally build-to-order. Highest base rate for the binding constraint.</div>
+    </div>
+    <div class="tbl-row tbl-3">
+      <div class="tbl-cell strong">Build-to-Order Custom Goods</div>
+      <div class="tbl-cell green">Primary</div>
+      <div class="tbl-cell muted">Custom cabinetry for big-box retail (Home Depot/Lowe's), architectural millwork, specialty furniture. NAICS 337. Client's explicit example from kickoff.</div>
+    </div>
+    <div class="tbl-row tbl-3">
+      <div class="tbl-cell strong">Medical Device (Disposables)</div>
+      <div class="tbl-cell green">Primary</div>
+      <div class="tbl-cell muted">Gloves, swabs, throwaway medical goods. NAICS 3391. Cited by client. FDA establishment registry available as enrichment source.</div>
+    </div>
+    <div class="tbl-row tbl-3">
+      <div class="tbl-cell strong">Specialty Food / Non-Dairy</div>
+      <div class="tbl-cell amber">Secondary</div>
+      <div class="tbl-cell muted">Non-dairy yogurt, alt-protein, specialty food producers. NAICS 311 sub-codes. CA especially strong for this segment. Requires per-row verify to filter mass-production.</div>
+    </div>
+    <div class="tbl-row tbl-3">
+      <div class="tbl-cell strong">Small Chemical Producers</div>
+      <div class="tbl-cell amber">Secondary</div>
+      <div class="tbl-cell muted">Specialty batch chemical, not commodity bulk. NAICS 325 sub-codes. Smallest cohort; lower fit rate per NAICS code. Verify required.</div>
+    </div>
+    <div class="tbl-row tbl-3" style="background:var(--red-dim);">
+      <div class="tbl-cell strong">Municipal (Water/Power/Transport)</div>
+      <div class="tbl-cell red" style="color:var(--red);">EXCLUDE</div>
+      <div class="tbl-cell muted">CB Pacific's existing footprint. Not the Velotic Scheduler market.</div>
+    </div>
+    <div class="tbl-row tbl-3" style="background:var(--red-dim);">
+      <div class="tbl-cell strong">Fortune 500 / High-Volume Mass Production</div>
+      <div class="tbl-cell red" style="color:var(--red);">EXCLUDE</div>
+      <div class="tbl-cell muted">P&G, Coca-Cola, large commodity dairy, bulk beverage. They schedule at ERP layer (SAP/Oracle). Not a fit for Velotic Scheduler.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║  SECTION 3 — BUYER PERSONAS          ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="section" id="s-personas">
+  <div class="section-head">
+    <span class="section-num">03</span>
+    <span class="section-title">Buyer Personas</span>
+  </div>
+
+  <p class="text-muted">This is an operations pitch, not a finance pitch — confirmed explicitly by Mark and Gary on the kickoff call. The primary buyer cares about on-time delivery, resource utilization, and making their team look like heroes.</p>
+
+  <div class="persona-grid">
+    <div class="persona-card primary">
+      <div class="persona-role">🎯 COO / VP Operations <span class="tag blue" style="font-size:10px;margin-left:6px;">Primary</span></div>
+      <div class="persona-pain">Owns delivery commitments. Deals daily with rush orders, late schedules, customer escalations. Has signed off on scheduling headcount they'd rather reallocate. Will champion the purchase if you make them look smart.</div>
+      <div class="persona-hook">"What if you ran the same factory with 2 fewer schedulers and 30% fewer late orders?"</div>
+    </div>
+    <div class="persona-card primary">
+      <div class="persona-role">🏭 Plant Manager <span class="tag blue" style="font-size:10px;margin-left:6px;">Primary</span></div>
+      <div class="persona-pain">Lives on the floor. Feels the chaos when a customer calls with a rush and the spreadsheet can't handle it. Knows the cost of every unexpected machine stop. Wants a tool, not a transformation project.</div>
+      <div class="persona-hook">"You're spending Monday morning rebuilding last Friday's schedule — what if that took 20 minutes instead of 4 hours?"</div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-role">🔗 Supply Chain Director / Director of Operations</div>
+      <div class="persona-pain">Balancing customer orders, raw material availability, and capacity. Currently using a patchwork of Excel files, whiteboards, and tribal knowledge. Growing SKU complexity is making it worse.</div>
+      <div class="persona-hook">"Your ERP knows what to make. It doesn't know what order to make it in, on which machine, with which team. That's the gap."</div>
+    </div>
+    <div class="persona-card" style="border-color:var(--amber-dim);background:rgba(245,158,11,0.03);">
+      <div class="persona-role">📋 Production Scheduler / Planner <span class="tag amber" style="font-size:10px;margin-left:6px;">Caution</span></div>
+      <div class="persona-pain">The person actually running the spreadsheets. Gary flagged this on the call: "We're gonna take your 40hr job and reduce it to 5hrs/week — they may not love that." Approach carefully. Frame as tool, not job replacement.</div>
+      <div class="persona-hook">Secondary contact only. Don't lead here. Let ops leadership champion adoption; bring scheduler in during evaluation.</div>
+    </div>
+  </div>
+
+  <div class="callout amber" style="margin-top:16px;">
+    <strong>SDR call script anchor (from Daniel on the call):</strong> Keep it simple. Two questions: <em>"Are you running production scheduling on spreadsheets right now?"</em> → <em>"Is that an operational headache for you?"</em> → "We have a solution from Velotic, formerly GE, designed exactly for that. Can I show you how a similar company solved it?" That's the entire SDR brief.
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║  SECTION 4 — VALUE PROPS             ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="section" id="s-vp">
+  <div class="section-head">
+    <span class="section-num">04</span>
+    <span class="section-title">Value Propositions & Messaging Hooks</span>
+  </div>
+
+  <div class="tbl-wrap mb16">
+    <div class="tbl-head">Core messages — all sourced from client's own words on kickoff call</div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">Excel Spreadsheet Hell</div>
+      <div class="tbl-cell muted">The core pain. 2–3 people spending 40hr/week on scheduling. Daily firefighting when customer demands change. Reduce to 5hr/week and reallocate headcount to higher-value work.</div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">Netflix Analogy (Cloud)</div>
+      <div class="tbl-cell muted">"I don't want to buy a DVD player and maintain a library of DVDs. I'd rather subscribe to Netflix." No server to stand up, no IT burden, no maintenance. Day-one value. Daniel said directly on the call: "That's actually a pretty good line."</div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">Your Business Isn't Spreadsheet Management</div>
+      <div class="tbl-cell muted">Daniel's line, approved by Gary. "Their business isn't spreadsheet management and they don't want it to be." Immediate emotional resonance for ops leaders.</div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">One-Click Rescheduling</div>
+      <div class="tbl-cell muted">Customer calls with a rush? Enter the constraint change → software recomputes the optimal schedule across all open work orders instantly. No Excel wizard required.</div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">Make the Ops Leader a Hero</div>
+      <div class="tbl-cell muted">Gary: "If you can make the person you're talking to a hero by solving some problem, they're gonna be more engaged." Late orders, missed deadlines, frustrated customers — Velotic solves all three. They'll impress their team by moving off Excel.</div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">GE / Velotic Brand Credibility</div>
+      <div class="tbl-cell muted">Lean on "Velotic, formerly GE" framing. GE brand recognition is still significant in industrial/manufacturing circles. Gary: "I think it'll be a miss not to." Short form: "Velotic, formerly GE GE Software Suite, now goes by Velotic."</div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">Beachhead → Upsell</div>
+      <div class="tbl-cell muted">Scheduler is the fastest, cheapest sale. Once they're a customer, Kevin/Gary can expand into efficiency, downtime, quality modules. Gary: "We solve your scheduling problem. Now let's talk about efficiency and downtime." This is the land-and-expand play.</div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">Only Cloud-Based Web Scheduler</div>
+      <div class="tbl-cell muted">Tangible competitive differentiator. Siemens and other competitors are still desktop-based. True HTML interface, accessible anywhere, no install. Matters most to smaller shops without IT teams.</div>
+    </div>
+  </div>
+
+  <div class="callout green">
+    <strong>Landing page asset strategy (from kickoff):</strong> Email 1 = intro. Email 2 = link to industry-specific Velotic case study (food → food case study, metal fab → metal case study). Gary has 20–25 case studies broken out by vertical. Daniel: "That should shape the whole list-building direction. Build cohorts that match up with the case studies." Track who clicks but doesn't book → route to SDR nurture queue.
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║  SECTION 5 — BINDING CONSTRAINT      ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="section" id="s-constraint">
+  <div class="section-head">
+    <span class="section-num">05</span>
+    <span class="section-title">Binding Constraint</span>
+    <span class="section-sub">TAM Analysis</span>
+  </div>
+
+  <div class="callout blue">
+    <p><strong>The binding constraint:</strong> The company builds products to custom specification or variable customer orders — not mass-producing a single SKU at scale. They experience daily schedule changes (rush orders, delays, shifting priorities) and are still running that complexity on Excel.</p>
+    <p><strong>Why this is non-negotiable:</strong> Large-volume producers (Coca-Cola, P&G, industrial dairies) do scheduling at the ERP level — SAP/Oracle handles it. They are not in-market. The line between fit and non-fit is custom/variable vs. standard/mass-run. Every downstream list decision flows from this.</p>
+  </div>
+
+  <div class="kv-grid col2">
+    <div class="kv">
+      <div class="kv-label">Nuance Tier</div>
+      <div class="kv-val blue">Nuanced (relational fit)<br><span style="color:var(--text-2);font-size:12px;">Not every manufacturer qualifies — business model must match, not just industry label.</span></div>
+    </div>
+    <div class="kv">
+      <div class="kv-label">Constraint in Client's Own Words</div>
+      <div class="kv-val">"Builds to order or specification — high variability, constantly shifting priorities, juggling multiple customer orders at once. The ideal customer is someone that builds to order or to a specification for that customer." — Gary, kickoff call</div>
+    </div>
+    <div class="kv">
+      <div class="kv-label">Biggest Competitor</div>
+      <div class="kv-val">Microsoft Excel. Gary: "Often if we're the first ones to get to them to explain that there's a better way to do this, we have a really good chance of selling something."</div>
+    </div>
+    <div class="kv">
+      <div class="kv-label">Signal That Seals Fit</div>
+      <div class="kv-val">Posting for "Production Scheduler," "Supply Chain Planner," or "Operations Manager" roles at a mid-market CA/OR/WA manufacturer. That's a live signal of scheduling pain.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║  SECTION 6 — ROUTE DECISION          ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="section" id="s-route">
+  <div class="section-head">
+    <span class="section-num">06</span>
+    <span class="section-title">Route Decision</span>
+    <span class="section-sub">Per Segment</span>
+  </div>
+
+  <p class="text-muted">Does the binding constraint map to a firmographic field (Type A), a product/website attribute (Type B), or a curated external directory (Type C)? Routed per segment — they land differently.</p>
+
+  <div class="tbl-wrap mb16">
+    <div class="tbl-head">Route test by segment</div>
+    <div class="tbl-row tbl-4">
+      <div class="tbl-cell strong">Segment</div>
+      <div class="tbl-cell strong">Route</div>
+      <div class="tbl-cell strong">Precision</div>
+      <div class="tbl-cell strong">Rationale</div>
+    </div>
+    <div class="tbl-row tbl-4 highlight">
+      <div class="tbl-cell strong">Discrete / Custom Mfg (332/333/339)</div>
+      <div class="tbl-cell green">A-core</div>
+      <div class="tbl-cell blue">~85%</div>
+      <div class="tbl-cell muted">NAICS 332/333/339 are <em>definitionally</em> custom/job-shop on the West Coast. The code is a strong proxy — no per-row verify needed for the core. Build by rule.</div>
+    </div>
+    <div class="tbl-row tbl-4 highlight">
+      <div class="tbl-cell strong">Cabinet / Furniture (337)</div>
+      <div class="tbl-cell green">A-core</div>
+      <div class="tbl-cell blue">~85%</div>
+      <div class="tbl-cell muted">NAICS 337 / 3371 covers build-to-order cabinetry well. Client cited this explicitly. Rule-friendly at 4-digit level.</div>
+    </div>
+    <div class="tbl-row tbl-4 highlight">
+      <div class="tbl-cell strong">Medical Device (3391)</div>
+      <div class="tbl-cell green">A-core + C-enrich</div>
+      <div class="tbl-cell blue">~85–90%</div>
+      <div class="tbl-cell muted">NAICS 3391 fits. FDA device establishment registry (free, state-filterable) as Type C enrichment further raises precision — surfaces only regulated US device makers.</div>
+    </div>
+    <div class="tbl-row tbl-4">
+      <div class="tbl-cell strong">Specialty Food / Non-Dairy (311 sub)</div>
+      <div class="tbl-cell amber">A-core + B-verify</div>
+      <div class="tbl-cell amber">~35–45% raw</div>
+      <div class="tbl-cell muted">NAICS 311 includes mass-production (dairy, commodity frozen food). Must narrow to sub-codes 3111/3119 + per-row verify to filter high-volume commodity producers.</div>
+    </div>
+    <div class="tbl-row tbl-4">
+      <div class="tbl-cell strong">Small Chemical (325 sub)</div>
+      <div class="tbl-cell amber">A-core + B-verify</div>
+      <div class="tbl-cell amber">~25–35% raw</div>
+      <div class="tbl-cell muted">NAICS 325 skews large bulk chemical. Sub-codes 3251/3259 reduce noise. Still requires per-row verify. Lowest priority segment — smallest addressable cohort, highest verify cost ratio.</div>
+    </div>
+  </div>
+
+  <div class="callout green">
+    <strong>Route verdict:</strong> Predominantly Type A (firmographic rules) for core segments — favorable routing. The NAICS passthrough codes are strong enough proxies for the binding constraint that the core list is buildable by rules with ~80–85% precision before any verification. Type B verify applies only to the specialty food and chemical cohorts. Type C enrichment available for medical via FDA registry. Net: low-cost, fast-to-launch TAM build.
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║  SECTION 7 — ANCHOR & SOURCE         ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="section" id="s-anchor">
+  <div class="section-head">
+    <span class="section-num">07</span>
+    <span class="section-title">Anchor & Source</span>
+  </div>
+
+  <div class="kv-grid col2">
+    <div class="kv">
+      <div class="kv-label">Top-Down Anchor (Ceiling)</div>
+      <div class="kv-val">US Census County Business Patterns 2023 — NAICS 332, 333, 337, 339, 3391, 311-sub, 325-sub in CA/OR/WA, 50–500 employees. Free, authoritative, segmentable by size band.</div>
+    </div>
+    <div class="kv">
+      <div class="kv-label">Bottom-Up Path (Floor)</div>
+      <div class="kv-val">Graph8 mashup / g8_search_companies with NAICS + geo + size + keyword filters. Estimated ~55–65% coverage vs. Census ceiling for West Coast mid-market manufacturing.</div>
+    </div>
+    <div class="kv">
+      <div class="kv-label">C-Enrichment (Medical)</div>
+      <div class="kv-val">FDA Device Establishment Registration — free API, filterable by state. Identifies regulated US device makers. Use to raise precision on NAICS 3391 cohort.</div>
+    </div>
+    <div class="kv">
+      <div class="kv-label">Long-Tail Source</div>
+      <div class="kv-val">ThomasNet — custom manufacturers, West Coast, job-shop tagging. Covers smaller shops (&lt;100 emp) missing from generic B2B DBs. Phase 2 enrichment once Phase 1 launches.</div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+    <div class="tbl-head">California manufacturing context (top-down reference)</div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">CA total manufacturing establishments</div>
+      <div class="tbl-cell muted">~45,000+ (all sizes, all NAICS). Source: CA Governor's Office, 2024. Nation's largest manufacturing economy ($405B output in 2024).</div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">CA manufacturers in DB (IndustrySelect)</div>
+      <div class="tbl-cell muted">~21,290 companies with paid employees (all sizes). West Coast total (CA+OR+WA) estimated ~30,000+.</div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">After size filter (50–500 emp) + target NAICS</div>
+      <div class="tbl-cell muted">Est. ~4,000–4,800 establishments in CA/OR/WA in scope. Excludes municipal, mass-production, and out-of-scope verticals.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║  SECTION 8 — MARKET SIZING           ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="section" id="s-sizing">
+  <div class="section-head">
+    <span class="section-num">08</span>
+    <span class="section-title">Market Sizing</span>
+  </div>
+
+  <!-- FUNNEL -->
+  <div class="funnel mb16">
+    <div class="funnel-step">
+      <div class="funnel-label">All CA/OR/WA manufacturers</div>
+      <div class="funnel-bar-col">
+        <div class="funnel-bar" style="background:#1E3A5F;width:100%;">~68,000 establishments</div>
+      </div>
+    </div>
+    <div class="funnel-arrow">↓ size filter: 50–500 employees</div>
+    <div class="funnel-step">
+      <div class="funnel-label">In size band</div>
+      <div class="funnel-bar-col">
+        <div class="funnel-bar" style="background:#1E4D7A;width:72%;">~13,000 est.</div>
+      </div>
+    </div>
+    <div class="funnel-arrow">↓ target NAICS codes (332/333/337/339/3391/311-sub/325-sub)</div>
+    <div class="funnel-step">
+      <div class="funnel-label">Target industries + size</div>
+      <div class="funnel-bar-col">
+        <div class="funnel-bar" style="background:#1B5E96;width:48%;">~5,500–6,200 est.</div>
+      </div>
+    </div>
+    <div class="funnel-arrow">↓ exclude municipal, mass-production, Gallo, CA Dairies</div>
+    <div class="funnel-step">
+      <div class="funnel-label">Qualified TAM (top-down)</div>
+      <div class="funnel-bar-col">
+        <div class="funnel-bar" style="background:#1E6FBC;width:33%;">~4,000–4,800</div>
+      </div>
+    </div>
+    <div class="funnel-arrow">↓ Graph8 mashup coverage ~55–65%</div>
+    <div class="funnel-step">
+      <div class="funnel-label">Reachable in Graph8</div>
+      <div class="funnel-bar-col">
+        <div class="funnel-bar" style="background:var(--green);width:22%;">~2,400–2,800</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap mb16">
+    <div class="tbl-head">Sizing by segment</div>
+    <div class="tbl-row tbl-3">
+      <div class="tbl-cell strong">Discrete / Custom Mfg (332/333/339)</div>
+      <div class="tbl-cell blue">~2,600–2,900</div>
+      <div class="tbl-cell muted">Core segment. CA-heavy. Machine shops, precision fab, custom machinery. ~85% fit rate. Highest-volume cohort. Maps to Velotic's metals and discrete mfg case studies.</div>
+    </div>
+    <div class="tbl-row tbl-3">
+      <div class="tbl-cell strong">Cabinet / Furniture (337)</div>
+      <div class="tbl-cell blue">~350–450</div>
+      <div class="tbl-cell muted">Build-to-order cabinetry and furniture. Tight fit — near-perfect mapping to client's stated example. Strong use case for second email asset.</div>
+    </div>
+    <div class="tbl-row tbl-3">
+      <div class="tbl-cell strong">Medical Device (3391)</div>
+      <div class="tbl-cell blue">~300–400</div>
+      <div class="tbl-cell muted">Disposable device makers. CA-heavy (SoCal/Bay Area). FDA registry enrichment lifts precision. Maps to Velotic's medical case studies.</div>
+    </div>
+    <div class="tbl-row tbl-3">
+      <div class="tbl-cell strong">Specialty Food / Non-Dairy (311 sub)</div>
+      <div class="tbl-cell amber">~500–700 raw<br>→ ~200–350 verified</div>
+      <div class="tbl-cell muted">Raw NAICS 311 pulls wide. After sub-code narrowing (3111/3119) + B-verify: est. 200–350 qualified companies. CA strong for alt-food innovation.</div>
+    </div>
+    <div class="tbl-row tbl-3">
+      <div class="tbl-cell strong">Small Chemical (325 sub)</div>
+      <div class="tbl-cell amber">~300–400 raw<br>→ ~100–150 verified</div>
+      <div class="tbl-cell muted">Smallest qualifying cohort post-verify. Lowest priority. Run as Phase 2 once Phase 1 cohorts show conversion data.</div>
+    </div>
+    <div class="tbl-row tbl-3 highlight-green">
+      <div class="tbl-cell strong" style="color:#F0F4FF;">Total Qualified TAM</div>
+      <div class="tbl-cell" style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--green);">~4,000–4,800</div>
+      <div class="tbl-cell muted">West Coast mid-market manufacturers in-scope (top-down ceiling). Excludes municipal, mass-production, AK.</div>
+    </div>
+    <div class="tbl-row tbl-3 highlight">
+      <div class="tbl-cell strong" style="color:#F0F4FF;">Reachable (Graph8 mashup)</div>
+      <div class="tbl-cell" style="font-family:var(--mono);font-size:18px;font-weight:700;color:var(--blue);">~2,400–2,800</div>
+      <div class="tbl-cell muted">~55–65% coverage rate. 3–5 contactable COO/VP Ops personas per company → est. <strong style="color:#F0F4FF;">~7,000–14,000 total contacts</strong> in reachable TAM.</div>
+    </div>
+    <div class="tbl-row tbl-3" style="background:var(--amber-dim);">
+      <div class="tbl-cell strong" style="color:#F0F4FF;">Gap (Census − Mashup)</div>
+      <div class="tbl-cell amber">~1,600–2,000</div>
+      <div class="tbl-cell muted">Lives in sub-100-employee shops, family-owned manufacturers without strong online presence. Fix: ThomasNet enrichment in Phase 2.</div>
+    </div>
+  </div>
+
+  <div class="callout amber">
+    <strong>Gap interpretation:</strong> 2,400–2,800 reachable companies is already a multi-year outbound TAM for CB Pacific given their team size (5 reps). The gap is not a crisis — schedule ThomasNet as a Phase 2 pass based on which cohorts convert best in Phase 1. Don't delay launch for it.
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║  SECTION 9 — QUALIFICATION SPEC      ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="section" id="s-spec">
+  <div class="section-head">
+    <span class="section-num">09</span>
+    <span class="section-title">Qualification Spec</span>
+  </div>
+
+  <div class="tbl-wrap mb16">
+    <div class="tbl-head">Spec fields — feeds directly into Graph8 mashup / spec_builder</div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">GEO</div>
+      <div class="tbl-cell">
+        <div class="tags">
+          <span class="tag green">California</span>
+          <span class="tag green">Oregon</span>
+          <span class="tag green">Washington</span>
+          <span class="tag red">Alaska — excluded</span>
+        </div>
+      </div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">SIZE</div>
+      <div class="tbl-cell">
+        <div class="tags">
+          <span class="tag green">50–499 employees</span>
+          <span class="tag green">$10M–$750M revenue</span>
+          <span class="tag red">&lt;50 emp — too small</span>
+          <span class="tag red">&gt;500 emp — runs ERP scheduling</span>
+        </div>
+      </div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">NAICS PASSTHROUGH</div>
+      <div class="tbl-cell">
+        <div class="tags">
+          <span class="tag blue">332 Fabricated Metal</span>
+          <span class="tag blue">333 Machinery Mfg</span>
+          <span class="tag blue">337 Furniture &amp; Related</span>
+          <span class="tag blue">339 Misc Mfg</span>
+          <span class="tag blue">3391 Medical Equipment</span>
+        </div>
+      </div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">POSITIVE KEYWORDS</div>
+      <div class="tbl-cell">
+        <div class="tags">
+          <span class="tag green">custom manufacturing</span>
+          <span class="tag green">build to order</span>
+          <span class="tag green">made to specification</span>
+          <span class="tag green">job shop</span>
+          <span class="tag green">contract manufacturing</span>
+          <span class="tag green">precision machining</span>
+          <span class="tag green">CNC machining</span>
+          <span class="tag green">sheet metal fabrication</span>
+          <span class="tag green">custom fabrication</span>
+          <span class="tag green">production scheduling</span>
+          <span class="tag green">work orders</span>
+          <span class="tag green">discrete manufacturing</span>
+          <span class="tag green">custom cabinetry</span>
+          <span class="tag green">non-dairy manufacturing</span>
+          <span class="tag green">specialty food production</span>
+          <span class="tag green">plant floor scheduling</span>
+        </div>
+      </div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">NEGATIVE KEYWORDS</div>
+      <div class="tbl-cell">
+        <div class="tags">
+          <span class="tag red">mass production</span>
+          <span class="tag red">own product line</span>
+          <span class="tag red">consumer brand</span>
+          <span class="tag red">commodity food</span>
+          <span class="tag red">dairy</span>
+          <span class="tag red">water treatment</span>
+          <span class="tag red">wastewater</span>
+          <span class="tag red">power generation</span>
+          <span class="tag red">energy utility</span>
+          <span class="tag red">transportation infrastructure</span>
+          <span class="tag red">wine / winery</span>
+          <span class="tag red">brewery at scale</span>
+          <span class="tag red">bulk chemical</span>
+          <span class="tag red">petroleum refining</span>
+        </div>
+      </div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">HARD EXCLUSIONS</div>
+      <div class="tbl-cell">
+        <div class="tags">
+          <span class="tag amber">Staffing / recruiting / RPO (default kill-list)</span>
+          <span class="tag amber">CB Pacific existing municipal customers</span>
+          <span class="tag amber">Gallo Wineries</span>
+          <span class="tag amber">California Dairies</span>
+          <span class="tag amber">Fortune 500 / &gt;500 emp manufacturers</span>
+          <span class="tag amber">Pure distributors / wholesalers</span>
+          <span class="tag amber">Government-owned manufacturers</span>
+        </div>
+      </div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">TARGET PERSONAS</div>
+      <div class="tbl-cell">
+        <div class="tags">
+          <span class="tag green">COO</span>
+          <span class="tag green">VP Operations</span>
+          <span class="tag green">VP of Operations</span>
+          <span class="tag green">Plant Manager</span>
+          <span class="tag green">Director of Operations</span>
+          <span class="tag green">Supply Chain Director</span>
+          <span class="tag grey">Production Scheduler — secondary only</span>
+          <span class="tag red">CFO / Finance — not this pitch</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-block-head">
+      <span class="code-label">Graph8 mashup spec (operator format)</span>
+      <button class="copy-btn" onclick="copyCode(this,'spec1')">Copy</button>
+    </div>
+    <div class="code-body" id="spec1"><span class="cm">-- GEO + SIZE</span>
+<span class="kw">GEO</span>  = company_state IN (<span class="st">'California'</span>, <span class="st">'Oregon'</span>, <span class="st">'Washington'</span>)
+<span class="kw">SIZE</span> = company_employee_count IN (<span class="st">'51-200'</span>, <span class="st">'201-500'</span>)
+
+<span class="cm">-- NAICS PASSTHROUGH (pass on code alone, no verify needed)</span>
+<span class="kw">NAICS_PASS</span> = [
+  <span class="st">'332'</span>,  <span class="cm">-- Fabricated Metal Product Mfg</span>
+  <span class="st">'3321'</span>,<span class="st">'3322'</span>,<span class="st">'3325'</span>,<span class="st">'3326'</span>,<span class="st">'3329'</span>,
+  <span class="st">'333'</span>,  <span class="cm">-- Machinery Mfg</span>
+  <span class="st">'3331'</span>,<span class="st">'3332'</span>,<span class="st">'3333'</span>,<span class="st">'3334'</span>,<span class="st">'3339'</span>,
+  <span class="st">'337'</span>,  <span class="cm">-- Furniture & Related Products</span>
+  <span class="st">'3371'</span>,
+  <span class="st">'339'</span>,  <span class="cm">-- Miscellaneous Mfg</span>
+  <span class="st">'3391'</span> <span class="cm">-- Medical Equipment & Supplies</span>
+]
+
+<span class="cm">-- POSITIVE KW (build-to-order / custom signals)</span>
+<span class="kw">POS_KW</span> = [
+  <span class="st">'custom manufacturing'</span>, <span class="st">'build to order'</span>, <span class="st">'made to specification'</span>,
+  <span class="st">'job shop'</span>, <span class="st">'contract manufacturing'</span>, <span class="st">'precision machining'</span>,
+  <span class="st">'CNC machining'</span>, <span class="st">'sheet metal fabrication'</span>, <span class="st">'custom fabrication'</span>,
+  <span class="st">'discrete manufacturing'</span>, <span class="st">'production scheduling'</span>, <span class="st">'work orders'</span>,
+  <span class="st">'custom cabinetry'</span>, <span class="st">'specialty food production'</span>, <span class="st">'non-dairy manufacturing'</span>
+]
+
+<span class="cm">-- NEGATIVE KW (written first — define DON'T-catch before DO-catch)</span>
+<span class="kw">NEG_KW</span> = [
+  <span class="st">'mass production'</span>, <span class="st">'consumer brand'</span>, <span class="st">'commodity food'</span>,
+  <span class="st">'dairy'</span>, <span class="st">'water treatment'</span>, <span class="st">'wastewater'</span>,
+  <span class="st">'power generation'</span>, <span class="st">'energy utility'</span>, <span class="st">'transportation infrastructure'</span>,
+  <span class="st">'wine'</span>, <span class="st">'winery'</span>, <span class="st">'brewery'</span>, <span class="st">'bulk chemical'</span>, <span class="st">'petroleum'</span>
+]
+
+<span class="cm">-- HARD EXCLUSIONS</span>
+<span class="kw">EXCL</span> = [
+  <span class="st">'staffing'</span>, <span class="st">'recruiting'</span>, <span class="st">'RPO'</span>, <span class="st">'talent platform'</span>,
+  <span class="st">'Gallo Wineries'</span>, <span class="st">'California Dairies'</span>,
+  <span class="st">'municipal utility'</span>, <span class="st">'transportation infrastructure'</span>
+]
+
+<span class="cm">-- PERSONAS (per company, 3–4 contacts)</span>
+<span class="kw">PERSONAS</span> = [
+  <span class="st">'COO'</span>, <span class="st">'VP Operations'</span>, <span class="st">'VP of Operations'</span>,
+  <span class="st">'Plant Manager'</span>, <span class="st">'Director of Operations'</span>,
+  <span class="st">'Supply Chain Director'</span>, <span class="st">'Head of Manufacturing'</span>
+]</div>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║  SECTION 10 — BUILD OPTIONS          ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="section" id="s-options">
+  <div class="section-head">
+    <span class="section-num">10</span>
+    <span class="section-title">Build Options</span>
+    <span class="section-sub">3 approaches</span>
+  </div>
+
+  <div class="build-cards">
+
+    <!-- OPTION 1 -->
+    <div class="build-card rec">
+      <div class="build-card-head">
+        <span class="bc-badge rec">Recommended · Phase 1</span>
+        <span class="bc-name">Rules-first core build — use the obvious filters, launch fast</span>
+      </div>
+      <div class="build-card-body">
+        <div class="bc-desc">Pull Graph8 mashup using NAICS passthrough codes (332/333/337/339/3391) + CA/OR/WA + 50–500 employees. No per-row verification needed for the core — these codes are definitionally custom/build-to-order manufacturing. Segment output into 3 cohorts and match each to a Velotic case study. Launchable within 1–2 days of suppression list receipt from CB Pacific.</div>
+        <div class="bc-stats">
+          <div class="bc-stat"><div class="bc-stat-label">Expected Yield</div><div class="bc-stat-val blue">~2,000–2,500 co.</div></div>
+          <div class="bc-stat"><div class="bc-stat-label">Precision</div><div class="bc-stat-val green">~80–85%</div></div>
+          <div class="bc-stat"><div class="bc-stat-label">Cost</div><div class="bc-stat-val green">$30–60 one-time</div></div>
+          <div class="bc-stat"><div class="bc-stat-label">Contacts (3–4/co)</div><div class="bc-stat-val blue">~6K–10K</div></div>
+        </div>
+        <div class="code-block">
+          <div class="code-block-head">
+            <span class="code-label">Yield funnel</span>
+          </div>
+          <div class="code-body">~4,400 qualified TAM (top-down)
+→ NAICS passthrough only (332/333/337/339/3391)   ~3,550 candidates
+→ apply exclusions (municipal, Gallo, dairy, staffing)  ~3,200
+→ size filter confirmed in DB (50–500 emp)           ~2,600
+→ Graph8 mashup coverage ~75–80% of filtered set    ~2,000–2,500 companies
+→ 3–4 personas per company                           ~6,000–10,000 contacts</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPTION 2 -->
+    <div class="build-card">
+      <div class="build-card-head">
+        <span class="bc-badge sup">Supplemental · Phase 1b</span>
+        <span class="bc-name">Wide net + verify — specialty food & chemical cohort</span>
+      </div>
+      <div class="build-card-body">
+        <div class="bc-desc">Pull NAICS 311 sub (3111, 3119) and 325 sub (3251, 3259) from mashup. These require per-row verification because the NAICS code includes mass-production companies. Run L1 cheap-classify first (drops gross mismatches), then L2 sample 50 rows to measure true pass rate, then L3 verify full set only if pass rate &gt;35%. Budget: gate at $100 L2-sample before committing to full L3 spend.</div>
+        <div class="bc-stats">
+          <div class="bc-stat"><div class="bc-stat-label">Raw Candidates</div><div class="bc-stat-val blue">~800–1,100</div></div>
+          <div class="bc-stat"><div class="bc-stat-label">Expected Post-Verify</div><div class="bc-stat-val amber">~300–500 co.</div></div>
+          <div class="bc-stat"><div class="bc-stat-label">Precision Post-Verify</div><div class="bc-stat-val green">~85–90%</div></div>
+          <div class="bc-stat"><div class="bc-stat-label">Cost (L1+L3)</div><div class="bc-stat-val amber">~$150–400</div></div>
+        </div>
+        <div class="code-block">
+          <div class="code-block-head">
+            <span class="code-label">Per-row verification prompt (L3 — paste into Graph8 agent)</span>
+            <button class="copy-btn" onclick="copyCode(this,'vp1')">Copy</button>
+          </div>
+          <div class="code-body" id="vp1">You are verifying whether a manufacturing company is a fit for
+production scheduling software (Velotic Scheduler by graph8 client CB Pacific).
+
+The ideal fit company:
+- Builds products to CUSTOM SPECIFICATION or variable customer orders
+- Experiences daily schedule changes (rush orders, delays, shifting priorities)
+- Has 50–500 employees on the West Coast (CA, OR, WA)
+- Is NOT a high-volume mass-production facility (same SKU at scale)
+- Is NOT a municipal utility (water, wastewater, power, energy, transport)
+- Scheduling is likely still done on spreadsheets (no advanced APS system visible)
+
+Company: {company_name}
+Description: {company_description}
+Website snippet: {website_text}
+
+Respond ONLY in JSON:
+{
+  "fit": "yes" | "no" | "unclear",
+  "evidence": "one sentence from the source that supports your verdict",
+  "confidence": "high" | "medium" | "low",
+  "disqualifier": "if no — state reason (mass-production / wrong sector / too large / has APS already)"
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPTION 3 -->
+    <div class="build-card">
+      <div class="build-card-head">
+        <span class="bc-badge sig">Signal-Gated · Ongoing</span>
+        <span class="bc-name">Intent & trigger-led — chase the ones raising their hand</span>
+      </div>
+      <div class="build-card-body">
+        <div class="bc-desc">Layer live triggers on top of the core list: hiring signals (posting for "production scheduler," "supply chain planner," "operations manager" at West Coast manufacturers), landing page click-throughs who didn't book a meeting, and Graph8 intent signals (companies researching scheduling software). Small volume, highest conversion rate. Route directly to SDR as warmest tier. Set up as a standing audience sync — dynamic, weekly refresh.</div>
+        <div class="bc-stats">
+          <div class="bc-stat"><div class="bc-stat-label">Volume</div><div class="bc-stat-val amber">50–150/month</div></div>
+          <div class="bc-stat"><div class="bc-stat-label">Precision</div><div class="bc-stat-val green">~90–95%</div></div>
+          <div class="bc-stat"><div class="bc-stat-label">Cost</div><div class="bc-stat-val green">Near-zero (in-platform)</div></div>
+          <div class="bc-stat"><div class="bc-stat-label">Nature</div><div class="bc-stat-val blue">Dynamic (refreshing)</div></div>
+        </div>
+        <div class="code-block">
+          <div class="code-block-head">
+            <span class="code-label">Hiring signal query strings</span>
+            <button class="copy-btn" onclick="copyCode(this,'hq1')">Copy</button>
+          </div>
+          <div class="code-body" id="hq1"><span class="cm">-- LinkedIn / Apollo / Graph8 intent hiring searches</span>
+<span class="st">"production scheduler"</span> AND (California OR Oregon OR Washington)
+<span class="st">"scheduling manager"</span> AND (manufacturing OR fabrication)
+<span class="st">"supply chain planner"</span> AND (<span class="st">"custom manufacturing"</span> OR <span class="st">"job shop"</span>)
+<span class="st">"operations manager"</span> AND (<span class="st">"plant floor"</span> OR <span class="st">"production scheduling"</span>)
+<span class="st">"ERP scheduler"</span> AND (mid-market OR SMB OR <span class="st">"small manufacturer"</span>)
+
+<span class="cm">-- Graph8 intent keyword triggers</span>
+scheduling software for manufacturers
+production planning software
+alternatives to Excel scheduling
+manufacturing scheduling tool
+APS software
+shop floor scheduling system
+advanced planning and scheduling
+
+<span class="cm">-- Company growth signal</span>
+headcount +10% YoY
+state: CA OR OR OR WA
+NAICS: 332–339, 3391
+size: 50–500 emp</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║  SECTION 11 — CAMPAIGN COHORTS       ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="section" id="s-cohorts">
+  <div class="section-head">
+    <span class="section-num">11</span>
+    <span class="section-title">Campaign Cohorts</span>
+    <span class="section-sub">Matched to Velotic case studies</span>
+  </div>
+
+  <p class="text-muted">Daniel's direction from kickoff: <em>"Our starting point should be building cohorts that match up with the case study documents. That's a really strong place to start."</em> Each cohort gets its own sequence with a matching case study as the Email 2 asset.</p>
+
+  <div class="tbl-wrap mb16">
+    <div class="tbl-head">Cohort structure</div>
+    <div class="tbl-row tbl-4">
+      <div class="tbl-cell strong">Cohort</div>
+      <div class="tbl-cell strong">NAICS</div>
+      <div class="tbl-cell strong">Est. Size</div>
+      <div class="tbl-cell strong">Case Study Asset to Request from Gary</div>
+    </div>
+    <div class="tbl-row tbl-4 highlight">
+      <div class="tbl-cell strong">A — Discrete / Custom Metal & Machinery</div>
+      <div class="tbl-cell mono blue">332/333/339</div>
+      <div class="tbl-cell blue mono">~1,400–1,700 co.</div>
+      <div class="tbl-cell muted">Metals, precision machining, custom fabrication case study. Biggest cohort — most case studies likely available here.</div>
+    </div>
+    <div class="tbl-row tbl-4 highlight">
+      <div class="tbl-cell strong">B — Cabinet / Wood / Furniture</div>
+      <div class="tbl-cell mono blue">337/3371</div>
+      <div class="tbl-cell blue mono">~350–450 co.</div>
+      <div class="tbl-cell muted">Custom cabinetry or furniture maker case study. Client's own example (Home Depot/Lowe's supplier). High relatability.</div>
+    </div>
+    <div class="tbl-row tbl-4 highlight">
+      <div class="tbl-cell strong">C — Medical Device & Disposables</div>
+      <div class="tbl-cell mono blue">3391</div>
+      <div class="tbl-cell blue mono">~300–400 co.</div>
+      <div class="tbl-cell muted">Medical device / disposable goods case study. FDA registry enrichment for precision lift. CA-heavy (SoCal/Bay Area).</div>
+    </div>
+    <div class="tbl-row tbl-4">
+      <div class="tbl-cell strong">D — Specialty Food / Non-Dairy</div>
+      <div class="tbl-cell mono amber">311 sub</div>
+      <div class="tbl-cell amber mono">~200–350 co.<br>(post-verify)</div>
+      <div class="tbl-cell muted">Food manufacturing case study. Run after Phase 1 verify gate. CA strong for alt-food and non-dairy innovation brands.</div>
+    </div>
+    <div class="tbl-row tbl-4">
+      <div class="tbl-cell strong">E — Small Chemical (optional)</div>
+      <div class="tbl-cell mono amber">325 sub</div>
+      <div class="tbl-cell amber mono">~100–150 co.<br>(post-verify)</div>
+      <div class="tbl-cell muted">Specialty / small-batch chemical case study. Phase 2 only — scope based on Phase 1 conversion data.</div>
+    </div>
+  </div>
+
+  <div class="tbl-wrap">
+    <div class="tbl-head">Email sequence structure per cohort</div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">Email 1 — Intro</div>
+      <div class="tbl-cell muted">Cold intro from CB Pacific rep (Kevin or named seller). "Velotic, formerly GE" framing. Pain hook: Excel scheduling hell. Soft CTA. No asset link yet.</div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">Email 2 — Case Study</div>
+      <div class="tbl-cell muted">Industry-matched Velotic case study link (hosted on graph8 sending domain). Track who clicks. Click-but-no-book → SDR nurture queue immediately.</div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">Email 3 — Follow-up</div>
+      <div class="tbl-cell muted">Brief. Reference the case study ("passed along a story about how [similar company] cut scheduling time from 40hrs to 5hrs — worth 20 minutes to see if it applies to you?"). Book CTA.</div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">LinkedIn (parallel)</div>
+      <div class="tbl-cell muted">Kevin or other CB Pacific reps' profiles via HeyReach. Connection + short note. "We help [vertical] manufacturers get off Excel scheduling — solved it recently for [case study company type]. Worth a chat?"</div>
+    </div>
+    <div class="tbl-row tbl-2">
+      <div class="tbl-cell strong">SDR Phone (parallel)</div>
+      <div class="tbl-cell muted">SDR dials under CB Pacific title. Two questions: "Are you running production scheduling on spreadsheets?" → "Is that a headache?" → "We have a GE-built tool that solved it for [industry]. 15 minutes with Kevin?" Book on Kevin's calendar.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║  SECTION 12 — TECH ONBOARDING        ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="section" id="s-tech">
+  <div class="section-head">
+    <span class="section-num">12</span>
+    <span class="section-title">Technical Onboarding</span>
+    <span class="section-sub">From kickoff call</span>
+  </div>
+
+  <p class="text-muted">Items confirmed on the kickoff call between Daniel and Mark. Dmytro (that's you) is responsible for sending the action item email post-call.</p>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot blue">1</div>
+      <div class="tl-content">
+        <div class="tl-phase">Email infrastructure</div>
+        <div class="tl-title">Buy lookalike domains + mailboxes</div>
+        <div class="tl-desc">Send CB Pacific a list of domain options that look similar to cbpacific.com. They approve. Buy the mailboxes for Mark Fusick + Kevin Burger + 4 additional reps (Mark to provide names). One mailbox per sender. Max 25 emails/day per mailbox.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot blue">2</div>
+      <div class="tl-content">
+        <div class="tl-phase">Calendars</div>
+        <div class="tl-title">Connect seller calendars to Graph8</div>
+        <div class="tl-desc">All 6 senders (Mark + Kevin + 4 others) need calendar sync in Graph8. Mark confirmed calendars get booked on the individual reps' calendars, not a shared inbox. Kevin covers South Bay — confirm his calendar separately.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot blue">3</div>
+      <div class="tl-content">
+        <div class="tl-phase">LinkedIn</div>
+        <div class="tl-title">Connect LinkedIn profiles via HeyReach</div>
+        <div class="tl-desc">Connect Kevin + Mark (at minimum) via HeyReach. Profiles send connection requests and follow-up messages as themselves. Graph8 manages responses; CB Pacific reps do not need to touch LinkedIn. Warm leads routed back to their calendar.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot blue">4</div>
+      <div class="tl-content">
+        <div class="tl-phase">Website tracking</div>
+        <div class="tl-title">Graph8 JavaScript snippet on CB Pacific / campaign landing page</div>
+        <div class="tl-desc">Install tracking JS on the campaign landing page. Identifies visitors by company and person. Anyone who clicks the Email 2 asset link and doesn't book → automatically routed to SDR queue. Mark needs to get this to whoever manages their website. Daniel flagged this explicitly on the call.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot amber">5</div>
+      <div class="tl-content">
+        <div class="tl-phase">SDR Hiring</div>
+        <div class="tl-title">SDR interview process — Mark is interviewer</div>
+        <div class="tl-desc">Dmytro is filtering SDR marketplace candidates. Present 2–4 shortlisted candidates to Mark for interviews. SDR will dial under a CB Pacific title/profile. Keep SDR brief simple: two qualifying questions, no tech depth required. Daniel: "I don't want an SDR getting anywhere near complexity on this one."</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot green">6</div>
+      <div class="tl-content">
+        <div class="tl-phase">Suppression</div>
+        <div class="tl-title">Get suppression list from CB Pacific</div>
+        <div class="tl-desc">Mark confirmed existing customer base is municipal sector (water, wastewater, power, energy, transportation). Minimal Velotic Scheduler overlap expected. Gary flagged a small blacklist: Gallo Wineries, California Dairies, and a handful of existing West Coast Velotic installs. Get these before list-build begins.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot green">7</div>
+      <div class="tl-content">
+        <div class="tl-phase">Content assets</div>
+        <div class="tl-title">Get case studies + sales collateral from Gary</div>
+        <div class="tl-desc">Gary confirmed 20–25 customer success stories broken out by industry. Also: competitive comparison deck, objection handling guide, seller quick-start guide, customer-facing deck, pricing model. All to be shared via the Box folder Gary mentioned on the call. These shape the landing pages and Email 2 assets per cohort.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║  SECTION 13 — NEXT STEPS             ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div class="section" id="s-next">
+  <div class="section-head">
+    <span class="section-num">13</span>
+    <span class="section-title">Next Steps</span>
+    <span class="section-sub">Sequenced</span>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-n">1</div>
+      <div class="step-body"><strong>Send post-call action item email to Mark</strong> (Dmytro's job). Confirmed on the call. Items: domain options to approve, names of 6 senders + their emails, calendar connect instructions, LinkedIn connect instructions, Box folder with sales collateral, suppression list (existing customers + Gallo + CA Dairies).</div>
+    </div>
+    <div class="step">
+      <div class="step-n">2</div>
+      <div class="step-body"><strong>Receive suppression list</strong> from CB Pacific (Mark). Apply before any enrichment spend or list-pull. Gate: list-build does not start until suppression list is in hand.</div>
+    </div>
+    <div class="step">
+      <div class="step-n">3</div>
+      <div class="step-body"><strong>Receive case studies from Gary</strong> (via Box folder). Confirm which of the 20–25 stories map to Cohort A (discrete/metal), Cohort B (cabinets), Cohort C (medical devices), Cohort D (food). Each cohort sequence needs its matched asset before launch.</div>
+    </div>
+    <div class="step">
+      <div class="step-n">4</div>
+      <div class="step-body"><strong>Run Phase 1 list pull in Graph8 mashup</strong> using the qualification spec in §09. Pull Cohort A (332/333/339) + Cohort B (337) + Cohort C (3391) simultaneously. Apply suppression. Export company list → enrichment pass for COO/VP Ops/Plant Manager contacts.</div>
+    </div>
+    <div class="step">
+      <div class="step-n">5</div>
+      <div class="step-body"><strong>Run Phase 1b (specialty food verify) in parallel</strong>. Pull NAICS 311 sub candidates → L1 classify → 50-row L2 sample audit → gate: if pass rate &gt;35%, proceed to L3 full verify. Expected to add 200–350 qualified companies as Cohort D.</div>
+    </div>
+    <div class="step">
+      <div class="step-n">6</div>
+      <div class="step-body"><strong>Buy domains + set up mailboxes</strong> (pending Mark's name list + domain approval). One mailbox per sender. Configure Graph8 sending infrastructure. Warm domains for 10–14 days before first send.</div>
+    </div>
+    <div class="step">
+      <div class="step-n">7</div>
+      <div class="step-body"><strong>Connect LinkedIn and calendars</strong>. Kevin + Mark minimum for LinkedIn via HeyReach. All 6 senders' calendars into Graph8 for meeting booking. Confirm Kevin's geo coverage (South of Santa Rosa → South of San Jose) maps to Cohort geography.</div>
+    </div>
+    <div class="step">
+      <div class="step-n">8</div>
+      <div class="step-body"><strong>Install Graph8 tracking JS on campaign landing page</strong>. Route to whoever manages CB Pacific's web presence. This is required before launch — click-through identification is core to the SDR nurture flow.</div>
+    </div>
+    <div class="step">
+      <div class="step-n">9</div>
+      <div class="step-body"><strong>Load campaign into Graph8 via graph8-campaign-builder</strong>. 4 sequences (one per cohort A–D). Each sequence: Email 1 (intro) → Email 2 (case study asset) → Email 3 (follow-up) + LinkedIn + SDR phone. Route click-but-no-book leads to SDR queue automatically.</div>
+    </div>
+    <div class="step">
+      <div class="step-n">10</div>
+      <div class="step-body"><strong>SDR shortlist to Mark</strong>. Dmytro to filter SDR marketplace, present 2–4 candidates to Mark for interview. SDR briefed on two qualifying questions only — keep it simple. SDR dials under CB Pacific title.</div>
+    </div>
+    <div class="step">
+      <div class="step-n">11</div>
+      <div class="step-body"><strong>ThomasNet long-tail enrichment (Phase 2)</strong>. Schedule after Phase 1 launch and first 2–3 weeks of conversion data. Scope based on which cohorts are responding best. Addresses the ~1,600–2,000 company gap between Census ceiling and Graph8 mashup coverage.</div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /content -->
+</div><!-- /layout -->
+
+<script>
+// Sidebar active on scroll
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.nav-a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      navLinks.forEach(n => {
+        n.classList.toggle('active', n.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { threshold: 0.25, rootMargin: '-52px 0px -55% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// Copy
+function copyCode(btn, id) {
+  const el = document.getElementById(id);
+  const text = el ? el.innerText : btn.closest('.build-card-body')?.querySelector('.code-body')?.innerText || '';
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = orig, 1800);
+  });
+}
+</script>
+</body>
+</html>
